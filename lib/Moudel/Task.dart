@@ -18,7 +18,7 @@ class Task extends StatelessWidget {
         var task = AppCubit.get(context).task;
         return
           ListView.separated(itemBuilder: (context,index) =>
-              buildTaskItem(task[index])
+              buildTaskItem(task[index],context)
               , separatorBuilder: (context,index) => Container(
                 width: double.infinity,
                 height: 1,

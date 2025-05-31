@@ -5,5 +5,6 @@ class AppChangeBottomNavBar extends  AppStates{}
 class AppCreateDataBase extends  AppStates{}
 class AppInsertDataBase extends  AppStates{}
 class AppGetDataBase extends  AppStates{}
+class AppUpdateDataBase extends  AppStates{}
 class AppGetLoadingScreen extends  AppStates{}
 class AppChangeItem extends  AppStates{}

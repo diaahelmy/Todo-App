@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/cubit/cubit.dart';
 
 Widget defaultButtom({
   double width = double.infinity,
@@ -47,76 +48,115 @@ Widget defaultFormField(
       ),
     );
 
-Widget buildTaskItem(Map model) {
+Widget buildTaskItem(Map model,context) {
   return Card(
     margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-    elevation: 4,
-    child: Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Row(
-        children: [
-          // Time & Date section
-          Column(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    elevation: 2,
+    child: Column(
+      children: [
+        // Main content
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Date & Time Row
+              Row(
+                children: [
+                  Icon(Icons.access_time, size: 16, color: Colors.deepPurple),
+                  SizedBox(width: 8),
+                  Text(
+                    '${model['time']}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Icon(Icons.calendar_today, size: 16, color: Colors.deepPurple),
+                  SizedBox(width: 8),
+                  Text(
+                    '${model['data']}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 12),
+
+              // Title
               Text(
-                '${model['time']}',
+                '${model['title']}',
                 style: TextStyle(
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.deepPurple,
+                  color: Colors.grey[900],
                 ),
               ),
               SizedBox(height: 4),
+
+              // Subtitle
               Text(
-                '${model['data']}', // 👈 Display the date here
+                '${model['subtitle']}',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 16,
                   color: Colors.grey[600],
+                  height: 1.3,
                 ),
               ),
             ],
           ),
+        ),
 
-          SizedBox(width: 16),
+        // Done/Archived buttons
+        Divider(height: 1, thickness: 1, color: Colors.grey[200]),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextButton.icon(
+                  icon: Icon(Icons.check_circle_outline, size: 20, color: Colors.green),
+                  label: const Text('Done'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.green,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  onPressed: () {
+                    AppCubit.get(context).updateDateBase(status: 'done', id: model['id']);
 
-          // Title & Subtitle section
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-            '${model['title']}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
+
+                  },
                 ),
-                SizedBox(height: 4),
-                Text(
-                  '${model['subtitle']}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[700],
+              ),
+              Container(
+                width: 1,
+                height: 24,
+                color: Colors.grey[300],
+              ),
+              Expanded(
+                child: TextButton.icon(
+                  icon: Icon(Icons.archive_outlined, size: 20, color: Colors.blueGrey),
+                  label: Text('Archived'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blueGrey,
+                    padding: EdgeInsets.symmetric(vertical: 10),
                   ),
+                  onPressed: () {
+                    AppCubit.get(context).updateDateBase(status: 'archived', id: model['id']);
+
+
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-
-          // Edit icon
-          if (model.isNotEmpty)
-            IconButton(
-              icon: Icon(Icons.edit, color: Colors.purpleAccent),
-              onPressed: (){},
-            ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
-
-
-
-  //
 
