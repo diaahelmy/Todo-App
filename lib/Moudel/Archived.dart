@@ -15,15 +15,9 @@ class Archived extends StatelessWidget {
     return BlocConsumer<AppCubit,AppStates>(
       builder: (BuildContext context, AppStates state)
       {
-        var done = AppCubit.get(context).archived;
+        var archived = AppCubit.get(context).archived;
         return
-          ListView.separated(itemBuilder: (context,index) =>
-              buildTaskItem(done[index],context)
-              , separatorBuilder: (context,index) => Container(
-                width: double.infinity,
-                height: 1,
-                color: Colors.grey[300],
-              ), itemCount: done.length);
+          listTaskBuilder(tasks: archived);
       },
       listener: (BuildContext context, AppStates state) {  },
     );

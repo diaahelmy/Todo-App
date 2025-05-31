@@ -66,9 +66,9 @@ class HomeLayout extends StatelessWidget {
                   if (formdKey.currentState!.validate()) {
                     cubit.insertDataBase(
                         title: titleController.text,
-                        data: dateController.text,
+                        date: dateController.text,
                         time: timeController.text,
-                        subTitle: subTitleController.text);
+                        subtitle: subTitleController.text);
                     //     .then((onValue) {
                     //   cubit.getDataBase( cubit.db).then((onValue) {
 

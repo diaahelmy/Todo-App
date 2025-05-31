@@ -71,13 +71,13 @@ class AppCubit extends Cubit<AppStates> {
 
   insertDataBase(
       {required String title,
-      required String data,
+      required String date,
       required String time,
-      required String subTitle}) async {
+      required String subtitle}) async {
     await db.transaction((action) async {
       action
           .rawInsert(
-              'INSERT INTO tasks (title,data,time,subtitle,status)VALUES("$title" ,"$data","$time","$subTitle","new")')
+              'INSERT INTO tasks (title,data,time,subtitle,status)VALUES("$title" ,"$date","$time","$subtitle","new")')
           .then((onValue) {
         print('inset SUCCESSFully $onValue');
         emit(AppInsertDataBase());
@@ -114,6 +114,13 @@ class AppCubit extends Cubit<AppStates> {
       emit(AppUpdateDataBase());
       getDataBase(db);
     });
+  }
+  void deleteDataBase({required int id }){
+      db.rawDelete('DELETE FROM tasks WHERE id = ?', [id]).then((onValue) {
+        emit(AppDeleteDataBase());
+        getDataBase(db);
+      });;
+
   }
 
   void changeIcon({
